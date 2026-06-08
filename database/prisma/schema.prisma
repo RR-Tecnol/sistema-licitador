@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../dist"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum SituacaoLicitacao {
+  URGENTE
+  NOVA
+  ADIADA
+  PRORROGADA
+  ALTERADA
+  REVOGADA
+  EDITAL
+}
+
+enum Decisao {
+  participando
+  declinado
+}
+
+model Licitacao {
+  id            String            @id
+  codigo        String?
+  orgao         String
+  endereco      String?
+  cidade        String
+  estado        String            @db.Char(2)
+  cep           String?           @db.VarChar(9)
+  edital        String
+  processo      String?
+  valorEstimado Decimal?          @db.Decimal(15, 2)
+  itens         String?           @db.LongText
+  situacao      SituacaoLicitacao
+  dataDocumento DateTime?
+  dataAbertura  DateTime?
+  dataPrazo     DateTime?
+  objeto        String            @db.Text
+  observacao    String?           @db.LongText
+  editalUrl     String?
+  atualizadaEm  DateTime
+
+  acompanhamentos Acompanhamento[]
+  interesse       Interesse?
+
+  @@index([situacao])
+  @@index([estado])
+  @@index([dataPrazo])
+  @@index([atualizadaEm])
+  @@index([valorEstimado])
+}
+
+model Acompanhamento {
+  id          String   @id
+  licitacaoId String
+  orgao       String
+  cidade      String
+  estado      String   @db.Char(2)
+  edital      String
+  processo    String?
+  dataFonte   DateTime
+  objeto      String   @db.Text
+  sintese     String   @db.LongText
+
+  licitacao   Licitacao @relation(fields: [licitacaoId], references: [id])
+}
+
+model Interesse {
+  licitacaoId String   @id
+  marcadoEm   DateTime
+  decisao     Decisao
+
+  licitacao   Licitacao @relation(fields: [licitacaoId], references: [id])
+}
