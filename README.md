@@ -80,7 +80,6 @@ Sistema web interno para monitoramento e tomada de decisão sobre licitações p
 
 ## Planilha de Testes/Validação
 
-O projeto contém uma planilha Excel de exemplo para importação localizada na raiz:
-- `boletim_web_Licitacoes_e_Acompanhamentos.xlsx`
+O projeto inicialmente terá a lista de licitações vazia. Para utilizar o sistema acesse a página **"Importar Planilha"** no frontend e envie uma planilha do excel com um conteúdo que contenha as licitações.
 
-Você pode acessar a página **"Importar Planilha"** no frontend e enviar este arquivo para popular a base de dados.
+Caso não tenha uma planilha, utilize a planilha modelo **Licitações e Acompanhamentos.xlsx** que pode ser encontrada na raiz do projeto para popular a base de dados.
